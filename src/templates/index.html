@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Главная {% endblock title %}
+{% block content %}
+<h1>Моя библиотека</h1>
+
+<a href="{% url 'books:list_authors' %}">Все авторы</a><br>
+<a href="{% url 'books:shelfs' %}">Показать полки</a><br>
+
+{% for book in books %}
+<a href="{% url 'books:author_books' author_id=book.author.id %}">{{book.author}}</a>
+{{book.title}}<br>
+{% endfor %}
+{% endblock content %}

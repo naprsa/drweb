@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Все авторы{% endblock title %}
+
+{% block content %}
+
+{% for shelf in shelfs %}
+{{shelf}}
+{% endfor %}
+
+<hr>
+
+{% for obj in object_list %}
+{{obj}}<br>
+{% endfor %}
+
+{% endblock content %}
