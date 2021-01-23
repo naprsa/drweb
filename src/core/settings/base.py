@@ -3,9 +3,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "3d(o%sj=_s2u_ak&(z)l8rik9i6z+n@=$hcbmutup03f8)&b*2"
-
 
 # Application definition
 
@@ -16,6 +13,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Apps
+    "books",
 ]
 
 MIDDLEWARE = [
