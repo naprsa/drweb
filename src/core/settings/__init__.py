@@ -1,12 +1,7 @@
-from .base import *
-
 try:
     from .dev import *
-except ModuleNotFoundError:
-    pass
-
-try:
+except ImportError:
     from .prod import *
-except ModuleNotFoundError:
+except ImportError:
     print("Missing production settings file! Exit!")
     quit()
