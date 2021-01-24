@@ -43,10 +43,27 @@ class BookOnShelf(models.Model):
     shelf = models.ForeignKey(
         "books.Shelf", on_delete=models.CASCADE, related_name="books_on_shelf"
     )
-    position = models.PositiveIntegerField("Позиция на полке")
+    position = models.PositiveIntegerField("Позиция на полке", null=True, blank=True)
 
     class Meta:
-        ordering = ["position"]
+        ordering = ["shelf", "position"]
 
     def __str__(self):
-        return f"{self.shelf}: {self.book}"
+        return f"[{self.shelf}] ({self.position}) {self.book}"
+
+    def save(self, *args, update_fields=None, **kwargs):
+        if (
+            not update_fields
+            and self.__class__.objects.filter(shelf=self.shelf).exists()
+        ):
+            self.position = (
+                self.__class__.objects.filter(shelf=self.shelf).last().position + 1
+            )
+        else:
+            self.position = 1
+        super().save(*args, **kwargs)
+
+    def change_position(self, to_book):
+        to_book.position, self.position = self.position, to_book.position
+        to_book.save(update_fields=["position"])
+        self.save(update_fields=["position"])
