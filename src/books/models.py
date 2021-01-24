@@ -53,14 +53,19 @@ class BookOnShelf(models.Model):
 
     def save(self, *args, update_fields=None, **kwargs):
         if (
-            not update_fields
+            not self.position
+            and self.__class__.objects.filter(shelf=self.shelf).exists()
+        ):
+            self.position = 1
+        elif (
+            not self.position
+            and not update_fields
             and self.__class__.objects.filter(shelf=self.shelf).exists()
         ):
             self.position = (
                 self.__class__.objects.filter(shelf=self.shelf).last().position + 1
             )
-        else:
-            self.position = 1
+
         super().save(*args, **kwargs)
 
     def change_position(self, to_book):

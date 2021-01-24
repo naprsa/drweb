@@ -1,24 +1,30 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import BaseModelForm
+from django.http.response import HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.shortcuts import render
+from django.urls import reverse_lazy
 
+from books.forms import BookOnShelfForm
 from books.models import Author, Book, BookOnShelf, Shelf
 
 
 def index(request):
     template = "index.html"
     context = {"books": Book.objects.all().select_related("author")}
+    context["shelfs"] = Shelf.objects.all()
     return render(request, template, context)
 
 
 class AuthorListView(ListView):
     model = Author
-    template_name = "list.html"
+    template_name = "authors.html"
 
 
 class BookListView(ListView):
     model = Book
-    template_name = "list.html"
+    template_name = "books_by_author_list.html"
 
     def get_queryset(self, **kwargs):
         author_id = self.kwargs.get("author_id")
@@ -29,7 +35,7 @@ class BookListView(ListView):
 
 class BooksOnShelfListView(ListView):
     model = BookOnShelf
-    template_name = "list.html"
+    template_name = "books_on_shelf_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,4 +51,8 @@ class BooksOnShelfListView(ListView):
 
 class BookUpdateView(UpdateView):
     model = BookOnShelf
+    form_class = BookOnShelfForm
     template_name = "update_book.html"
+
+    def get_success_url(self):
+        return reverse_lazy("books:shelfs")

@@ -3,9 +3,15 @@
 {% block content %}
 <h1>Моя библиотека</h1>
 
-<a href="{% url 'books:list_authors' %}">Все авторы</a><br>
-<a href="{% url 'books:shelfs' %}">Показать полки</a><br>
+{% for shelf in shelfs %}
+<a href="{% url 'books:books_on_shelf' shelf_id=shelf.pk %}">{{shelf}}</a>
+{% endfor %}
+<hr>
 
+<a href="{% url 'books:list_authors' %}">Все авторы</a>
+<a href="{% url 'books:shelfs' %}">Показать полки</a><br>
+<hr>
+<h3>Все книги</h3>
 {% for book in books %}
 <a href="{% url 'books:author_books' author_id=book.author.id %}">{{book.author}}</a>
 {{book.title}}<br>

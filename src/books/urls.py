@@ -19,5 +19,9 @@ urlpatterns = [
     path(
         "shelfs/<int:shelf_id>", BooksOnShelfListView.as_view(), name="books_on_shelf"
     ),
-    path("edit_book/<int:book_id>/", BookUpdateView.as_view(), name="edit_book"),
+    path(
+        "edit-book-on-shelf/<int:pk>/",
+        BookUpdateView.as_view(),
+        name="edit_book",
+    ),
 ]

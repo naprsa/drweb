@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Все авторы{% endblock title %}
+
+{% block content %}
+
+{% for shelf in shelfs %}
+<a href="{% url 'books:books_on_shelf' shelf_id=shelf.pk %}">{{shelf}}</a>
+{% endfor %}
+
+<hr>
+
+{% for obj in object_list %}
+{{obj}} -- <a href="{% url 'books:edit_book' pk=obj.pk %}">Изменить положение на
+  полке</a><br>
+{% endfor %}
+
+<hr>
+<a href="{% url 'books:index' %}">На главную</a>
+
+{% endblock content %}

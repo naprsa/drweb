@@ -5,7 +5,7 @@
 {% block content %}
 
 {% for shelf in shelfs %}
-{{shelf}}
+<a href="{% url 'books:books_on_shelf' shelf_id=shelf.pk %}">{{shelf}}</a>
 {% endfor %}
 
 <hr>
@@ -13,5 +13,8 @@
 {% for obj in object_list %}
 {{obj}} [{{obj.bookonshelf.shelf}}]<br>
 {% endfor %}
+
+<hr>
+<a href="{% url 'books:index' %}">На главную</a>
 
 {% endblock content %}
