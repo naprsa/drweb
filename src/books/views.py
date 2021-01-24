@@ -36,6 +36,12 @@ class BooksOnShelfListView(ListView):
         context["shelfs"] = Shelf.objects.all()
         return context
 
+    def get_queryset(self):
+        shelf_id = self.kwargs.get("shelf_id")
+        if shelf_id:
+            return super().get_queryset().filter(shelf_id=shelf_id)
+        return super().get_queryset()
+
 
 class BookUpdateView(UpdateView):
     model = BookOnShelf

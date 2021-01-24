@@ -11,7 +11,7 @@
 <hr>
 
 {% for obj in object_list %}
-{{obj}}<br>
+{{obj}} [{{obj.bookonshelf.shelf}}]<br>
 {% endfor %}
 
 {% endblock content %}
