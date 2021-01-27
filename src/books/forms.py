@@ -13,4 +13,3 @@ class BookOnShelfForm(forms.Form):
     def save(self, *args, **kwargs):
         selected_obj = self.cleaned_data["position"]
         self.object.change_position(selected_obj)
-

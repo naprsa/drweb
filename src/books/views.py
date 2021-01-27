@@ -1,10 +1,9 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import BaseModelForm
-from django.http.response import HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 from books.forms import BookOnShelfForm
 from books.models import Author, Book, BookOnShelf, Shelf
@@ -33,6 +32,7 @@ class BookListView(ListView):
         return super().get_queryset()
 
 
+@method_decorator(never_cache, name="dispatch")
 class BooksOnShelfListView(ListView):
     model = BookOnShelf
     template_name = "books_on_shelf_list.html"
@@ -55,6 +55,6 @@ class BookUpdateView(UpdateView):
     template_name = "update_book.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "books:books_on_shelf", kwargs={"shelf_id": self.get_object().shelf.pk}
-        )
+        shelf_id = self.get_object().shelf.pk
+        url = reverse("books:books_on_shelf", kwargs={"shelf_id": shelf_id})
+        return url
