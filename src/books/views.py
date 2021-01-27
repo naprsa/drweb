@@ -55,4 +55,6 @@ class BookUpdateView(UpdateView):
     template_name = "update_book.html"
 
     def get_success_url(self):
-        return reverse_lazy("books:shelfs")
+        return reverse_lazy(
+            "books:books_on_shelf", kwargs={"shelf_id": self.get_object().shelf.pk}
+        )
