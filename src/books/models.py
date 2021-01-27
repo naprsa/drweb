@@ -54,7 +54,7 @@ class BookOnShelf(models.Model):
     def save(self, *args, update_fields=None, **kwargs):
         if (
             not self.position
-            and self.__class__.objects.filter(shelf=self.shelf).exists()
+            and not self.__class__.objects.filter(shelf=self.shelf).exists()
         ):
             self.position = 1
         elif (
